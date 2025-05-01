@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta charset="utf-8" />
+  <title>Random</title>
+  <link rel="Stylesheet" type="text/css" href="/static/app/css/rackpi-light.min.css">
+<!--
+  <script type="text/javascript" defer src="/static/app/js/base.js"></script>
+-->
+  <style>
+    #number {
+      text-align: center;
+      font-size: 50vh;
+      margin: auto;
+      width: 96vw;
+      display: block;
+      height: 60vh;
+    }
+    hr {
+      display: inline-block;
+    }
+  </style>
+  <script type="text/javascript" charset="utf-8">
+    //~ from https://bost.ocks.org/mike/shuffle/
+    function shuffle(array) {
+      var m = array.length, t, i;
+        // While there remain elements to shuffle…
+        while (m) {
+          // Pick a remaining element…
+          i = Math.floor(Math.random() * m--);
+          // And swap it with the current element.
+          t = array[m];
+          array[m] = array[i];
+          array[i] = t;
+        }
+      return array;
+    }
+    /*
+    //~ ES6 --- from https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+    function generateArray(minimum,maximum) {
+      //~ from https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+      var array = Array.from(Array(maximum + 1 - minimum).keys()).map(x => x+minimum);
+      return array;
+    }
+    */
+
+    //~ Adapted from https://stackoverflow.com/questions/3746725/create-a-javascript-array-containing-1-n
+    function generateArray(minimum, maximum) {
+      var nrange = maximum - minimum + 1; 
+      var numbers = new Array(nrange);
+      for(var i = 0; i < numbers.length; i++){
+        numbers[i] = minimum + i;
+      }
+      return numbers;
+    }
+
+    var numbers = [];
+    var setting = "uniform";
+
+    var clearNumbers = function() {
+      numbers = [];
+      //~ var done = page.toaster.toast("Done!");
+      var display = document.querySelector("#number");
+      display.innerHTML = "OK";
+    }
+
+    function uniformRandom(minimum,maximum) {
+      if (numbers.length < 1) {
+        min = Math.ceil(minimum);
+        max = Math.floor(maximum);
+        numbers = generateArray(min,max);
+      }
+      //~ console.log(numbers);
+      return shuffle(numbers).pop();
+    }
+
+    function randomRandom(minimum,maximum) {
+      min = Math.ceil(minimum);
+      max = Math.floor(maximum);
+      return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+    }
+
+    function getRandomInt(minimum, maximum) {
+      if (setting == "uniform") {
+        return uniformRandom(minimum,maximum);
+      } else {
+        return randomRandom(minimum,maximum);
+      }
+    }
+    
+    var switchSetting = function() {
+      var switcher = document.querySelector("#switch");
+      if (setting == "uniform") {
+        setting = "random";
+        switcher.innerText = "Uniform Random"
+      } else {
+        setting = "uniform";
+        switcher.innerText = "True Random"
+      }
+      console.log(setting);
+    }
+    
+    document.addEventListener('DOMContentLoaded', function(){
+      document.addEventListener("keydown", function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (options.hasOwnProperty(code)) {
+          showRandomNumber();
+        };
+      });
+
+    var options = {
+      32: "toggle", // 'Spacebar'
+      "clearNumbers": clearNumbers,
+      "switchSetting": switchSetting
+    };
+
+      var menu = document.querySelector("#menu");
+      menu.addEventListener("change", function(evt) {
+        if (options.hasOwnProperty(menu.value)) {
+          options[menu.value]();
+          menu.value = "";
+        } else {
+          console.log(menu.value);
+        };
+      })
+    });
+    function showRandomNumber() {
+      var minimum = document.querySelector("#min");
+      var maximum = document.querySelector("#max");
+      var display = document.querySelector("#number");
+      display.innerHTML = getRandomInt(minimum.value,maximum.value);
+    }
+  </script>
+</head>
+  <body>
+  <form>
+  <label>Min:</label>
+  <input id="min" type="number" value="1" min="0" max="1000">
+  <label>Max:</label>
+  <input id="max" type="number" value="20" min="0" max="1000">
+  <select id="menu">
+    <option value="" selected>…</option>
+    <option value="clearNumbers">Reset</option>
+    <option value="switchSetting" id="switch">True Random</option>
+  </select>
+  </form>
+  <hr>
+  <a id="number" onclick="showRandomNumber();" href="javascript:void(0);"> </a>
+
+
+  </body>
+</html>

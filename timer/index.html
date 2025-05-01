@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Timer</title>
+
+  <script type="text/javascript" charset="utf-8">
+  function isEven(value) {
+    if (value%2 == 0)
+      return true;
+    else
+      return false;
+  }
+  function pad(n) {
+    return (n < 10) ? ("0" + n) : n;
+  }
+  document.addEventListener("DOMContentLoaded", function(){
+    var count, counter;
+    var body = document.querySelector("body");
+    var timer = document.querySelector("#timer");
+    var toggle = document.querySelector("#toggle");
+    var minutes = document.querySelector("#minutes");
+    var controls = document.querySelectorAll("input");
+
+    body.addEventListener('input', function(event) {
+      for (i = 0; i < controls.length; i++) {
+        var v = event.target.value;
+        controls[i].value = v;
+        timer.innerText = pad(v) + ":00";
+      };
+    }, false);
+
+    function countdown() {
+      count = count-1;
+      var m = pad(Math.floor(count/60));
+      var s = pad(count%60);
+      if (count <= 30) {
+        body.classList.toggle('even');
+      }
+      if (count <= 0) {
+        clearInterval(counter);
+        timer.innerHTML = '<span style="font-size: 10vw;">TIME OVER</span>';
+        document.querySelector("#timeOver").play();
+        return;
+      }
+      timer.innerText = m + ":" + s;
+    }
+    toggle.addEventListener("click", function(event) {
+      if (toggle.dataset.state == "stopped") {
+        count = minutes.value * 60;
+        toggle.dataset.state = "running";
+        toggle.innerText = "Stop & Reset";
+        counter = setInterval(countdown, 1001); //1000 will run it every 1 second
+      } else {
+        clearInterval(counter);
+        body.classList.remove("even")
+        toggle.dataset.state = "stopped";
+        toggle.innerText = "Start";
+        timer.innerText = "00:00";
+      }
+    });
+  });
+  </script>
+  <style>
+    body {
+      text-align: center;
+      text-rendering: optimizelegibility;
+    }
+    #timer {
+      font-size: 25vw;
+      font-family: monospace;
+      margin: 3vh auto;
+    }
+    body.even {
+      background-color: #C80815;
+      color: white;
+    }
+    .controls {
+      opacity: .3;
+      padding: 1em;
+      width: 80vw;
+      margin: 1vh auto;
+    }
+    .controls:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="timer">05:00</div>
+
+  <input class="controls" id="minutes" type="number" value="5" min="1" max="90" step="1"/>
+  <input class="controls" type="range" value="5" min="1" max="90" step="1"/>
+  <button class="controls" data-state="stopped" id="toggle">Start</button>
+
+  <audio id="timeOver" src="/static/app/tools/sfx/gameover.mp3"></audio>
+</body>
+</html>

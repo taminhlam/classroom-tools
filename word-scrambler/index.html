@@ -1,0 +1,193 @@
+<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Ta Minh Lam" />
+  <meta name="date" content="2019-08-30" />
+  <meta name="dcterms.date" content="2019-08-30" />
+  <meta name="dcterms.modified" content="2025-05-01" />
+  <meta name="robots" content="noindex">
+  <meta name="googlebot" content="noindex">
+  <meta charset="utf-8" />
+  <title>Scrambler</title>
+  <link rel="Stylesheet" type="text/css" href="simple.min.css">
+<!--
+  <script type="text/javascript" src="/static/app/js/base.js" defer></script>
+-->
+  <script type="text/javascript" charset="utf-8">
+//~ from https://bost.ocks.org/mike/shuffle/
+function shuffle(array) {
+  var m = array.length, t, i;
+    while (m) { // While there remain elements to shuffle…
+      i = Math.floor(Math.random() * m--); // Pick a remaining element…
+      t = array[m]; // And swap it with the current element.
+      array[m] = array[i];
+      array[i] = t;
+    }
+  return array;
+}
+
+function Scrambler() {
+  var s = {
+    state: "empty",
+    answer: "",
+    question: "",
+    words: [],
+    shuffled: [],
+    body: document.querySelector("body"),
+    input: document.querySelector(".local"),
+    submiturl: document.querySelector(".submiturl"),
+    submittext: document.querySelector(".submittext"),
+    type: "scrambler",
+    wait: function() {
+      s.input.addEventListener("change", s.file2array, false);
+      s.submiturl.addEventListener("click", s.url2array, false);
+      s.submittext.addEventListener("click", s.text2array, false);
+    },
+    addButton: function() {
+      var trigger = document.createElement("button");
+      trigger.innerText = "next";
+      trigger.className = "next";
+      s.body.appendChild(trigger);
+      trigger.addEventListener("touchstart", function(e) {
+        e.stopPropagation();
+        s.quiz
+      }, false);
+    },
+    init: function() {
+      s.quiz();
+      //~ s.body.addEventListener("touchstart", function(e) {
+        //~ https://joshtronic.com/2015/04/19/handling-click-and-touch-events-on-the-same-element/
+        //~ seems that touchstart is triggered before click. We must then prevent the click like so …
+        //~ e.stopPropagation();
+        //~ s.quiz
+      //~ }, false);
+      s.body.addEventListener("click", s.quiz, false);
+      document.addEventListener("keydown", function(e) {
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 32) {
+          s.quiz();
+        }
+      });
+    },
+    url2array: function() {
+      var remoteFile = document.querySelector(".remote");
+      var url = decodeURIComponent(remoteFile.value).replace("viewer/Library", "static/Library");
+      var request = new XMLHttpRequest();
+      request.open("GET", url, true);
+      request.responseType = "text/plain";
+      request.send();
+      request.onload = function() {
+        var txt = request.responseText;
+        s.words = txt.split(/\r?\n/);
+        console.log(s.words);
+        s.init();
+      }
+    },
+    text2array: function() {
+      var textarea = document.querySelector(".textarea").value;
+      s.words = textarea.split(/\r?\n/);
+      console.log(s.words);
+      s.init();
+    },
+    quiz: function() {
+      if (s.state == "question") {
+        if (s.shuffled.length == 0) {
+          s.shuffled = shuffle(s.words.slice());
+        };
+        s.answer = s.shuffled.pop();
+        s.question = shuffle(s.answer.slice().split("")).join("");
+        var size = Math.round(130/s.answer.length);
+        s.body.setAttribute("style", "font-size: "+ size +"vw; line-height: 98vh; text-align: center; margin: 0; display: block;");
+        s.body.innerHTML = s.question;
+        s.state = "answer";
+        console.log(s.answer);
+        s.countdown(3);
+      } else {
+        s.body.innerText = s.answer;
+        s.state = "question";
+      }
+      s.addButton();
+    },
+    file2array: function(event) {
+      var f = event.target.files[0];
+      if (f.type == "text/plain") {
+        var r = new FileReader();
+        r.onload = (function(f) {
+          return function(e) {
+            s.words = e.target.result.split(/\r?\n/);
+            s.init();
+          };
+        })(f);
+        r.readAsText(f);
+      } else {
+        alert("Failed to load files");
+      }
+    },
+    countdown: function(n) {
+      var c = new Audio("/static/app/tools/sfx/c.mp3");
+      var c2 = new Audio("/static/app/tools/sfx/c2.mp3");
+      if (n <= 0) {
+        c2.play();
+      } else {
+        c.play();
+        setTimeout(function() {
+          s.countdown(n-1);
+        }, 1000);
+      }
+    }
+  };
+  return s;
+}
+document.addEventListener("DOMContentLoaded", function(){
+  var scrambler = new Scrambler();
+  scrambler.wait();
+});
+  </script>
+  <style>
+  @font-face {
+    font-family: 'Bitter';
+    src: url('Bitter-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+  }
+  body {
+    text-rendering: optimizelegibility;
+    /*background-color: #fffff8;*/
+    font-family: 'Bitter', Georgia, serif;
+    min-height: 96vh;
+  }
+  .form * {
+    width: 100%;
+  }
+  .next {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    opacity: 0;
+  }
+  </style>
+</head>
+<body>
+  <div class="form">
+  <h3>Word list</h3>
+  <textarea class="textarea" name="textarea" rows="10" cols="23">
+cat
+dog
+turtle
+rabbit
+hamster</textarea>
+  <br/>
+  <button class="submittext" type="button">Load</button>
+  <h3>Local file</h3>
+  <input class="local" type="file"/>
+  <h3>Remote file</h3>
+  <input class="remote" type="text"/>
+  <br>
+  <button class="submiturl" type="button">Load</button>
+  </div>
+</body>
+</html>
