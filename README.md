@@ -3,6 +3,6 @@
 
 Some classroom tools, salvaged from older work.
 
-- <timer>
-- <random-numbers>
-- <word-scrambler>
+- [timer](timer/)
+- [random-numbers](random-numbers/)
+- [word-scrambler](word-scrambler/)
