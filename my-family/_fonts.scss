@@ -1,0 +1,57 @@
+/*!
+ *  Font Awesome 4.7.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+
+@import "fa/variables";
+@import "fa/fa-mixins";
+@import "fa/path";
+@import "fa/core";
+@import "fa/larger";
+@import "fa/fixed-width";
+@import "fa/list";
+@import "fa/bordered-pulled";
+@import "fa/animated";
+@import "fa/rotated-flipped";
+@import "fa/stacked";
+@import "fa/icons";
+@import "fa/screen-reader";
+
+/*!
+ *  Font Definitions
+ */
+
+@font-face {
+    font-family: 'Andika';
+    src: url('fonts/andika/AndikaNewBasic-R.ttf') format('truetype'),
+    url('fonts/andika/AndikaNewBasic-R.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Andika';
+    src: url('fonts/andika/AndikaNewBasic-B.ttf') format('truetype'),
+    url('fonts/andika/AndikaNewBasic-B.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Andika';
+    src: url('fonts/andika/AndikaNewBasic-I.ttf') format('truetype'),
+    url('fonts/andika/AndikaNewBasic-I.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Pridi';
+    src: url('fonts/pridi/Pridi-400.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pridi';
+    src: url('fonts/pridi/Pridi-600.otf');
+    font-weight: 600;
+    font-style: normal;
+}

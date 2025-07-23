@@ -1,0 +1,42 @@
+
+<script type="text/javascript" src="media/script.js"></script>
+
+# <button id="create" onclick="createMedicalRecord();"><i class="fa fa-refresh"></i></button> Student Card
+
+<span id="photo"></span>
+
+<div id="patient">
+    <table style="width: 60%;">
+        <tr>
+            <td>Name: </td>
+            <td><code id="lastName"></code> <code id="firstName"></code></td>
+        </tr>
+        <tr>
+            <td>Age:</td>
+            <td><span id="age"></span></td>
+        </tr>
+        </tr>
+            <td>Address:</td>
+            <td><span id="address"></span></td>
+        </tr>
+        <tr>
+            <td>School:</td>
+            <td><span id="school"></span></td>
+        </tr>
+        <tr>
+            <td>Class:</td>
+            <td><span id="class"></span></td>
+        </tr>
+        <tr>
+            <td>Family:</td>
+            <td><span id="sis"></span></td>
+        <tr>
+            <td>Father: </td>
+            <td><span id="ageF"></span>, <span id="jobF"></span></td>
+        </tr>
+        <tr>
+            <td>Mother: </td>
+            <td><span id="ageM"></span>, <span id="jobM"></span></td>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,32 @@
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin user-select($value) {
+  -webkit-user-select: $value; /* Safari: only "none" or "text" */
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  user-select: $value;
+}
+
+@mixin x-transform($values) {
+  -webkit-transform: $values; // Chrome, Safari, iOS Safari, Android Stock
+      -ms-transform: $values; // IE9
+          transform: $values;
+}
+
+@mixin x-transition($values) {
+  -webkit-transition: $values;
+  -moz-transition: $values;
+  -ms-transition: $values;
+  -o-transition: $values;
+  transition: $values;
+}
+
+@mixin x-opacity($value) {
+  -webkit-opacity: $value;
+  -moz-opacity: $value;
+  opacity: $value;
+}

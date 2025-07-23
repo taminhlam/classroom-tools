@@ -1,0 +1,50 @@
+
+<div id="patient">
+<style class="f-xtable"></style>
+    <table>
+        <thead>
+            <tr><th>You are ...</th><th><button id="create" onclick="createMedicalRecord();">New</button></th><th></th><th></th></tr>
+        </thead>
+        <tr>
+            <td>Name:</td>
+            <td><code id="lastName"></code> <code id="firstName"></code></td>
+        </tr>
+        <tr>
+        <tr>
+            <td>Age:</td>
+            <td><span id="age"></span></td>
+        </tr>
+        <tr>
+        </tr>
+            <td>Address:</td>
+            <td><span id="address"></span></td>
+        </tr>
+        <tr>
+            <td>School:</td>
+            <td><span id="school"></span></td>
+        </tr>
+        <tr>
+            <td>Class:</td>
+            <td><span id="class"></span></td>
+        </tr>
+        <tr>
+            <td>Transport:</td>
+            <td><span id="transport"></span></td>
+        <tr>
+            <td>Father's age: </td>
+            <td><span id="ageF"></span></td>
+        </tr>
+        <tr>
+            <td><i class="fa fa-share fa-flip-vertical"></i> Job: <span id="jobF"></span></td>
+            <td>(<span id="transportF"></span>)</td>
+        </tr>
+        <tr>
+            <td>Mother's age: </td>
+            <td><span id="ageM"></span></td>
+        </tr>
+        <tr>
+            <td><i class="fa fa-share fa-flip-vertical"></i> Job: <span id="jobM"></span></td>
+            <td>(<span id="transportM"></span>)</td>
+        </tr>
+    </table>
+</div>
